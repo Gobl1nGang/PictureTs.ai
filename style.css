@@ -89,15 +89,18 @@ body {
   align-items: center;
 }
 
-.nav-links a {
+.nav-links a,
+.nav-link {
   color: var(--text-muted);
   text-decoration: none;
   font-weight: 500;
   font-size: 0.95rem;
   transition: color 0.3s;
+  cursor: pointer;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.nav-link:hover {
   color: var(--text-color);
 }
 
@@ -480,6 +483,27 @@ body {
 /* Hide card-3 if not used or reposition */
 .card-3 { display: none; }
 
+/* Page Content Styles */
+.page-content {
+  padding: 120px 5% 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 80vh;
+}
+
+.page-content h1 {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  margin-bottom: 24px;
+  color: var(--text-color);
+}
+
+.page-content p {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
 @media (max-width: 768px) {
   .phone-img {
     width: 220px;
@@ -494,5 +518,13 @@ body {
     left: auto;
     right: auto;
     margin: 10px;
+  }
+  
+  .page-content {
+    padding: 100px 5% 40px;
+  }
+  
+  .page-content h1 {
+    font-size: 2.5rem;
   }
 }
