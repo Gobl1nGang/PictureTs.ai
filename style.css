@@ -483,7 +483,14 @@ body {
 /* Hide card-3 if not used or reposition */
 .card-3 { display: none; }
 
-/* Page Content Styles */
+/* Page Section Styles */
+.page-section {
+  padding: 120px 5% 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 80vh;
+}
+
 .page-content {
   padding: 120px 5% 60px;
   max-width: 1200px;
@@ -502,6 +509,11 @@ body {
   font-size: 1.2rem;
   color: var(--text-muted);
   line-height: 1.7;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
 }
 
 @media (max-width: 768px) {
