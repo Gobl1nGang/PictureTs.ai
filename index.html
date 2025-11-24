@@ -23,10 +23,11 @@
     <nav class="navbar">
       <div class="logo">
         <div class="logo-icon"></div>
-        <a href="index.html" style="text-decoration: none; color: inherit;">PictureTs<span class="highlight">.ai</span></a>
+        <a href="index.html" style="text-decoration: none; color: inherit;">PictureTs<span
+            class="highlight">.ai</span></a>
       </div>
       <div class="nav-links">
-        <a href="#download" class="nav-link">Download</a>
+        <a href="#download" class="nav-link">Pre-register</a>
         <a href="#support" class="nav-link">Support</a>
         <a href="#features" class="nav-link">Features</a>
         <a href="#about" class="nav-link">About</a>
@@ -46,8 +47,8 @@
           Available on iOS and Android.
         </p>
         <div class="hero-cta">
-          <button class="btn-primary large">Download App</button>
-          <button class="btn-secondary large">View Gallery</button>
+          <button id="pre-register-btn" class="btn-primary large">Pre-register</button>
+          <a href="/gallery.html"><button class="btn-secondary large">View Gallery</button></a>
         </div>
       </div>
       <div class="hero-visual">
@@ -118,9 +119,14 @@
     <section id="about" class="page-section">
       <div class="section-header">
         <h2 class="section-title">About</h2>
-        <p class="section-desc">At PictureTs.ai, we believe every moment deserves to be captured perfectly. Our mission is to empower photographers of all levels with intelligent AI technology that guides them to their perfect shot.</p>
-        <p class="section-desc">Through real-time composition analysis, professional-grade color grading, and personalized style recommendations, we're democratizing professional photography. Whether you're capturing a sunset, a portrait, or a fleeting moment, PictureTs.ai ensures you never miss the perfect photo again.</p>
-        <p class="section-desc">We're building the future where artificial intelligence becomes your creative partner, helping you see the world through a lens of endless possibility.</p>
+        <p class="section-desc">At PictureTs.ai, we believe every moment deserves to be captured perfectly. Our mission
+          is to empower photographers of all levels with intelligent AI technology that guides them to their perfect
+          shot.</p>
+        <p class="section-desc">Through real-time composition analysis, professional-grade color grading, and
+          personalized style recommendations, we're democratizing professional photography. Whether you're capturing a
+          sunset, a portrait, or a fleeting moment, PictureTs.ai ensures you never miss the perfect photo again.</p>
+        <p class="section-desc">We're building the future where artificial intelligence becomes your creative partner,
+          helping you see the world through a lens of endless possibility.</p>
       </div>
     </section>
 
@@ -141,6 +147,19 @@
           <a href="#">Discord</a>
           <a href="#">Twitter</a>
           <a href="#">GitHub</a>
+          <!-- Pre-register Modal -->
+          <div id="modal-overlay" class="modal-overlay">
+            <div class="modal-content">
+              <button id="modal-close" class="modal-close">&times;</button>
+              <h2 class="modal-title">Join the Waitlist</h2>
+              <p class="modal-desc">Be the first to experience the future of AI photography. Enter your email to get
+                early access.</p>
+              <form id="register-form" class="register-form">
+                <input type="email" placeholder="Enter your email address" required class="modal-input">
+                <button type="submit" class="btn-primary modal-submit">Join Now</button>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
       <div class="footer-bottom">

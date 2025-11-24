@@ -246,3 +246,59 @@ heroVisual.addEventListener('mousemove', (e) => {
         easing: 'linear'
     });
 });
+
+// --- Modal Logic ---
+const modalOverlay = document.getElementById('modal-overlay');
+const preRegisterBtn = document.getElementById('pre-register-btn');
+const modalCloseBtn = document.getElementById('modal-close');
+const registerForm = document.getElementById('register-form');
+
+if (preRegisterBtn) {
+  preRegisterBtn.addEventListener('click', () => {
+    modalOverlay.classList.add('active');
+    anime({
+      targets: '.modal-content',
+      scale: [0.9, 1],
+      opacity: [0, 1],
+      duration: 400,
+      easing: 'easeOutCubic'
+    });
+  });
+}
+
+if (modalCloseBtn) {
+  modalCloseBtn.addEventListener('click', () => {
+    modalOverlay.classList.remove('active');
+  });
+}
+
+// Close on outside click
+if (modalOverlay) {
+  modalOverlay.addEventListener('click', (e) => {
+    if (e.target === modalOverlay) {
+      modalOverlay.classList.remove('active');
+    }
+  });
+}
+
+// Form Submission
+if (registerForm) {
+  registerForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = registerForm.querySelector('input').value;
+    
+    // Mock submission
+    const btn = registerForm.querySelector('button');
+    const originalText = btn.innerText;
+    
+    btn.innerText = 'Joined!';
+    btn.style.background = '#22c55e';
+    
+    setTimeout(() => {
+      modalOverlay.classList.remove('active');
+      btn.innerText = originalText;
+      registerForm.reset();
+      alert(`Thanks for joining! We'll notify ${email} when we launch.`);
+    }, 1000);
+  });
+}

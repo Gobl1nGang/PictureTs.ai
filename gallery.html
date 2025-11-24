@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gallery - PictureTs.ai</title>
+    <meta name="description" content="See the power of AI-assisted photography.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        .gallery-container {
+            min-height: 100vh;
+            padding: 120px 5% 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .gallery-title {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            margin-bottom: 16px;
+            color: var(--text-color);
+        }
+
+        .gallery-desc {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        .comparison-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .comparison-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 133.33%;
+            /* 3:4 aspect ratio */
+        }
+
+        .before-image,
+        .after-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .after-image {
+            clip-path: inset(0 50% 0 0);
+        }
+
+        .slider {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 4px;
+            height: 100%;
+            background: var(--primary-color);
+            cursor: ew-resize;
+            z-index: 10;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+        }
+
+        .slider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.8);
+        }
+
+        .slider::after {
+            content: '⟷';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        .label {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            color: var(--text-muted);
+        }
+
+        .label.before {
+            color: #ef4444;
+        }
+
+        .label.after {
+            color: var(--primary-color);
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 40px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .back-button:hover {
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="canvas-container">
+        <canvas id="network-canvas"></canvas>
+    </div>
+
+    <div class="gallery-container">
+        <a href="/" class="back-button">← Back to Home</a>
+
+        <div class="gallery-header">
+            <h1 class="gallery-title">Before & After</h1>
+            <p class="gallery-desc">See the transformative power of AI-guided photography</p>
+        </div>
+
+        <div class="comparison-container">
+            <div class="comparison-wrapper">
+                <img src="/after.png" alt="Before AI assistance" class="before-image">
+                <img src="/before.png" alt="After AI assistance" class="after-image">
+                <div class="slider" id="slider"></div>
+            </div>
+        </div>
+
+        <div class="labels">
+            <span class="label before">Before</span>
+            <span class="label after">After</span>
+        </div>
+    </div>
+
+    <script type="module" src="/main.js"></script>
+    <script>
+        const slider = document.getElementById('slider');
+        const afterImage = document.querySelector('.after-image');
+        const container = document.querySelector('.comparison-wrapper');
+        let isDragging = false;
+
+        function updateSlider(e) {
+            const rect = container.getBoundingClientRect();
+            const x = (e.clientX || e.touches[0].clientX) - rect.left;
+            const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+
+            slider.style.left = percentage + '%';
+            afterImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+        }
+
+        slider.addEventListener('mousedown', () => isDragging = true);
+        document.addEventListener('mouseup', () => isDragging = false);
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) updateSlider(e);
+        });
+
+        slider.addEventListener('touchstart', () => isDragging = true);
+        document.addEventListener('touchend', () => isDragging = false);
+        document.addEventListener('touchmove', (e) => {
+            if (isDragging) updateSlider(e);
+        });
+    </script>
+</body>
+
+</html>
