@@ -1,5 +1,5 @@
-import './style.css'
-import anime from 'animejs/lib/anime.es.js';
+
+import anime from './assets/anime.es.js';
 
 // --- Particle Network Background ---
 const canvas = document.getElementById('network-canvas');
@@ -254,53 +254,53 @@ const modalCloseBtn = document.getElementById('modal-close');
 const registerForm = document.getElementById('register-form');
 
 if (preRegisterBtn) {
-  preRegisterBtn.addEventListener('click', () => {
-    modalOverlay.classList.add('active');
-    anime({
-      targets: '.modal-content',
-      scale: [0.9, 1],
-      opacity: [0, 1],
-      duration: 400,
-      easing: 'easeOutCubic'
+    preRegisterBtn.addEventListener('click', () => {
+        modalOverlay.classList.add('active');
+        anime({
+            targets: '.modal-content',
+            scale: [0.9, 1],
+            opacity: [0, 1],
+            duration: 400,
+            easing: 'easeOutCubic'
+        });
     });
-  });
 }
 
 if (modalCloseBtn) {
-  modalCloseBtn.addEventListener('click', () => {
-    modalOverlay.classList.remove('active');
-  });
+    modalCloseBtn.addEventListener('click', () => {
+        modalOverlay.classList.remove('active');
+    });
 }
 
 // Close on outside click
 if (modalOverlay) {
-  modalOverlay.addEventListener('click', (e) => {
-    if (e.target === modalOverlay) {
-      modalOverlay.classList.remove('active');
-    }
-  });
+    modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) {
+            modalOverlay.classList.remove('active');
+        }
+    });
 }
 
 // Form Submission
 if (registerForm) {
-  registerForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const email = registerForm.querySelector('input').value;
-    
-    // Mock submission
-    const btn = registerForm.querySelector('button');
-    const originalText = btn.innerText;
-    
-    btn.innerText = 'Joined!';
-    btn.style.background = '#22c55e';
-    
-    setTimeout(() => {
-      modalOverlay.classList.remove('active');
-      btn.innerText = originalText;
-      registerForm.reset();
-      alert(`Thanks for joining! We'll notify ${email} when we launch.`);
-    }, 1000);
-  });
+    registerForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = registerForm.querySelector('input').value;
+
+        // Mock submission
+        const btn = registerForm.querySelector('button');
+        const originalText = btn.innerText;
+
+        btn.innerText = 'Joined!';
+        btn.style.background = '#22c55e';
+
+        setTimeout(() => {
+            modalOverlay.classList.remove('active');
+            btn.innerText = originalText;
+            registerForm.reset();
+            alert(`Thanks for joining! We'll notify ${email} when we launch.`);
+        }, 1000);
+    });
 }
 
 // --- Cinematic AI Carousel ---
@@ -324,11 +324,11 @@ function updateActiveStates() {
 // Navigate to slide with animation
 function navigateToSlide(index) {
     if (isTransitioning || index === activeSlideIndex) return;
-    
+
     isTransitioning = true;
     activeSlideIndex = index;
     updateActiveStates();
-    
+
     // Animate slide content entrance
     anime({
         targets: `.slide[data-slide="${index}"] .slide-title`,
@@ -338,7 +338,7 @@ function navigateToSlide(index) {
         easing: 'easeOutCubic',
         delay: 300
     });
-    
+
     anime({
         targets: `.slide[data-slide="${index}"] .slide-desc`,
         translateY: [30, 0],
@@ -347,7 +347,7 @@ function navigateToSlide(index) {
         easing: 'easeOutCubic',
         delay: 500
     });
-    
+
     anime({
         targets: `.slide[data-slide="${index}"] .tech-icon`,
         scale: [0.8, 1],
@@ -356,7 +356,7 @@ function navigateToSlide(index) {
         easing: 'easeOutBack',
         delay: 200
     });
-    
+
     setTimeout(() => {
         isTransitioning = false;
     }, 800);
@@ -386,13 +386,13 @@ function handleSwipeStart(e) {
 
 function handleSwipeMove(e) {
     if (!isSwiping) return;
-    
+
     touchCurrentX = e.touches[0].clientX;
     touchCurrentY = e.touches[0].clientY;
-    
+
     const deltaX = Math.abs(touchStartX - touchCurrentX);
     const deltaY = Math.abs(touchStartY - touchCurrentY);
-    
+
     // Prevent vertical scroll if horizontal swipe detected
     if (deltaX > deltaY && deltaX > 15) {
         e.preventDefault();
@@ -401,16 +401,16 @@ function handleSwipeMove(e) {
 
 function handleSwipeEnd() {
     if (!isSwiping) return;
-    
+
     const deltaX = touchStartX - touchCurrentX;
     const deltaY = Math.abs(touchStartY - touchCurrentY);
     const swipeTime = Date.now() - swipeStartTime;
     const swipeVelocity = Math.abs(deltaX) / swipeTime;
-    
+
     // Only process horizontal swipes
     if (Math.abs(deltaX) > deltaY) {
         const threshold = swipeVelocity > 0.5 ? 40 : 100;
-        
+
         if (Math.abs(deltaX) > threshold) {
             if (deltaX > 0) {
                 const nextIndex = activeSlideIndex === cinematicSlides.length - 1 ? 0 : activeSlideIndex + 1;
@@ -421,7 +421,7 @@ function handleSwipeEnd() {
             }
         }
     }
-    
+
     isSwiping = false;
 }
 
@@ -450,12 +450,12 @@ if (carouselWrapper) {
 
     carouselWrapper.addEventListener('mouseup', () => {
         if (!isDragging) return;
-        
+
         const deltaX = mouseStartX - mouseCurrentX;
         const dragTime = Date.now() - dragStartTime;
         const dragVelocity = Math.abs(deltaX) / dragTime;
         const threshold = dragVelocity > 0.3 ? 50 : 120;
-        
+
         if (Math.abs(deltaX) > threshold) {
             if (deltaX > 0) {
                 const nextIndex = activeSlideIndex === cinematicSlides.length - 1 ? 0 : activeSlideIndex + 1;
@@ -465,7 +465,7 @@ if (carouselWrapper) {
                 navigateToSlide(prevIndex);
             }
         }
-        
+
         isDragging = false;
     });
 
@@ -475,15 +475,15 @@ if (carouselWrapper) {
     carouselWrapper.addEventListener('wheel', (e) => {
         const deltaX = e.deltaX;
         const deltaY = e.deltaY;
-        
+
         // Only handle clear horizontal scrolling
         if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 20) {
             e.preventDefault();
-            
+
             if (wheelCooldown) return;
-            
+
             wheelCooldown = true;
-            
+
             if (deltaX > 0) {
                 const nextIndex = activeSlideIndex === cinematicSlides.length - 1 ? 0 : activeSlideIndex + 1;
                 navigateToSlide(nextIndex);
@@ -491,7 +491,7 @@ if (carouselWrapper) {
                 const prevIndex = activeSlideIndex === 0 ? cinematicSlides.length - 1 : activeSlideIndex - 1;
                 navigateToSlide(prevIndex);
             }
-            
+
             setTimeout(() => {
                 wheelCooldown = false;
             }, 600);
