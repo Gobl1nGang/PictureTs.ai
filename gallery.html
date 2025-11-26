@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="./assets/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gallery - PictureTs.ai</title>
     <meta name="description" content="See the power of AI-assisted photography.">
@@ -12,7 +12,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="./style.css">
     <style>
         .gallery-container {
             min-height: 100vh;
@@ -147,7 +147,7 @@
     </div>
 
     <div class="gallery-container">
-        <a href="/" class="back-button">← Back to Home</a>
+        <a href="./index.html" class="back-button">← Back to Home</a>
 
         <div class="gallery-header">
             <h1 class="gallery-title">Before & After</h1>
@@ -156,8 +156,8 @@
 
         <div class="comparison-container">
             <div class="comparison-wrapper">
-                <img src="/after.png" alt="Before AI assistance" class="before-image">
-                <img src="/before.png" alt="After AI assistance" class="after-image">
+                <img src="./assets/after.png" alt="Before AI assistance" class="before-image">
+                <img src="./assets/before.png" alt="After AI assistance" class="after-image">
                 <div class="slider" id="slider"></div>
             </div>
         </div>
@@ -168,7 +168,7 @@
         </div>
     </div>
 
-    <script type="module" src="/main.js"></script>
+    <script type="module" src="./main.js"></script>
     <script>
         const slider = document.getElementById('slider');
         const afterImage = document.querySelector('.after-image');
