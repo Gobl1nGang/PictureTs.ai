@@ -333,6 +333,565 @@ body {
   font-size: 1.1rem;
 }
 
+/* Cinematic AI Carousel */
+.cinematic-carousel {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  position: relative;
+  overflow: hidden;
+  height: 100vh;
+  min-height: 700px;
+}
+
+.carousel-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-slides {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transform: translateX(100px);
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  pointer-events: none;
+}
+
+.slide.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: all;
+}
+
+.slide-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.neural-bg {
+  background: 
+    radial-gradient(ellipse at 70% 30%, rgba(34, 197, 94, 0.2) 0%, transparent 60%),
+    radial-gradient(circle at 30% 80%, rgba(34, 197, 94, 0.15) 0%, transparent 50%),
+    conic-gradient(from 180deg at 50% 50%, rgba(34, 197, 94, 0.08) 0deg, transparent 90deg, rgba(34, 197, 94, 0.05) 180deg, transparent 270deg),
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="neural" patternUnits="userSpaceOnUse" width="20" height="20"><circle cx="10" cy="10" r="1" fill="%2322c55e" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23neural)"/></svg>'),
+    linear-gradient(135deg, #000000 0%, #0a0b0f 30%, #0b0c15 100%);
+  animation: neural-flow 25s ease-in-out infinite;
+}
+
+.network-bg {
+  background:
+    radial-gradient(circle at 60% 40%, rgba(20, 184, 166, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 20% 70%, rgba(59, 130, 246, 0.12) 0%, transparent 60%),
+    linear-gradient(45deg, rgba(20, 184, 166, 0.05) 0%, transparent 40%),
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="network" patternUnits="userSpaceOnUse" width="25" height="25"><line x1="0" y1="12.5" x2="25" y2="12.5" stroke="%2314b8a6" stroke-width="0.5" opacity="0.1"/><line x1="12.5" y1="0" x2="12.5" y2="25" stroke="%2314b8a6" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23network)"/></svg>'),
+    linear-gradient(135deg, #000000 0%, #0a0f15 30%, #0b0c15 100%);
+  animation: network-flow 30s ease-in-out infinite;
+}
+
+.speed-bg {
+  background:
+    radial-gradient(ellipse at 80% 20%, rgba(34, 197, 94, 0.18) 0%, transparent 40%),
+    radial-gradient(circle at 20% 80%, rgba(168, 85, 247, 0.12) 0%, transparent 60%),
+    linear-gradient(45deg, rgba(34, 197, 94, 0.06) 0%, transparent 30%, rgba(168, 85, 247, 0.04) 70%, transparent 100%),
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="speed" patternUnits="userSpaceOnUse" width="30" height="10"><rect width="15" height="2" y="4" fill="%2322c55e" opacity="0.08"/></pattern></defs><rect width="100" height="100" fill="url(%23speed)"/></svg>'),
+    linear-gradient(135deg, #000000 0%, #0f0a15 30%, #0b0c15 100%);
+  animation: speed-flow 20s ease-in-out infinite;
+}
+
+.global-bg {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(20, 184, 166, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(34, 197, 94, 0.1) 0%, transparent 60%),
+    radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 60%),
+    linear-gradient(30deg, rgba(20, 184, 166, 0.05) 0%, transparent 40%),
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="global" patternUnits="userSpaceOnUse" width="40" height="40"><circle cx="20" cy="20" r="15" fill="none" stroke="%2314b8a6" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23global)"/></svg>'),
+    linear-gradient(135deg, #000000 0%, #0a1512 30%, #0b0c15 100%);
+  animation: global-flow 28s ease-in-out infinite;
+}
+
+.bg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.4) 70%, rgba(0, 0, 0, 0.7) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, transparent 50%, rgba(0, 0, 0, 0.3) 100%),
+    radial-gradient(ellipse at 20% 80%, rgba(34, 197, 94, 0.02) 0%, transparent 50%);
+}
+
+.particle-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(1px 1px at 20% 30%, rgba(34, 197, 94, 0.1), transparent),
+    radial-gradient(1px 1px at 40% 70%, rgba(34, 197, 94, 0.08), transparent),
+    radial-gradient(1px 1px at 90% 40%, rgba(255, 255, 255, 0.04), transparent),
+    radial-gradient(1px 1px at 60% 20%, rgba(34, 197, 94, 0.06), transparent);
+  background-size: 150px 150px, 200px 200px, 300px 300px, 180px 180px;
+  animation: particles-drift 50s linear infinite;
+  opacity: 0.4;
+}
+
+.slide-layout {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 80px;
+  gap: 100px;
+}
+
+.slide-left {
+  flex: 1;
+  max-width: 600px;
+}
+
+.title-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.floating-icon {
+  width: 28px;
+  height: 28px;
+  color: rgba(34, 197, 94, 0.8);
+  filter: drop-shadow(0 0 12px rgba(34, 197, 94, 0.4)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  stroke: url(#iconGradient);
+  flex-shrink: 0;
+}
+
+.floating-icon::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: -1;
+  animation: icon-glow 3s ease-in-out infinite;
+}
+
+.slide-title {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--text-color);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  text-shadow: 0 0 30px rgba(34, 197, 94, 0.2), 0 2px 4px rgba(0, 0, 0, 0.4);
+  margin: 0;
+}
+
+.slide-desc {
+  font-size: 1.25rem;
+  color: rgba(156, 163, 175, 0.95);
+  line-height: 1.7;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  margin-top: 20px;
+}
+
+.slide-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.neural-mesh {
+  width: 400px;
+  height: 400px;
+  position: relative;
+}
+
+.mesh-grid {
+  width: 100%;
+  height: 100%;
+  background: 
+    linear-gradient(0deg, transparent 49%, rgba(34, 197, 94, 0.15) 50%, transparent 51%),
+    linear-gradient(90deg, transparent 49%, rgba(34, 197, 94, 0.15) 50%, transparent 51%),
+    linear-gradient(45deg, transparent 49%, rgba(34, 197, 94, 0.08) 50%, transparent 51%),
+    linear-gradient(-45deg, transparent 49%, rgba(34, 197, 94, 0.08) 50%, transparent 51%);
+  background-size: 40px 40px, 40px 40px, 80px 80px, 80px 80px;
+  position: relative;
+  opacity: 0.7;
+}
+
+.mesh-nodes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 25% 25%, rgba(34, 197, 94, 0.4) 1px, transparent 1px),
+    radial-gradient(circle at 75% 25%, rgba(34, 197, 94, 0.4) 1px, transparent 1px),
+    radial-gradient(circle at 25% 75%, rgba(34, 197, 94, 0.4) 1px, transparent 1px),
+    radial-gradient(circle at 75% 75%, rgba(34, 197, 94, 0.4) 1px, transparent 1px),
+    radial-gradient(circle at 50% 50%, rgba(34, 197, 94, 0.6) 2px, transparent 2px);
+  background-size: 80px 80px;
+  animation: neural-pulse 4s ease-in-out infinite;
+}
+
+.mesh-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.06) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: subtle-glow 6s ease-in-out infinite;
+}
+
+/* Decentralized Network */
+.orbit-system {
+  width: 400px;
+  height: 400px;
+  position: relative;
+  background: radial-gradient(circle at center, rgba(20, 184, 166, 0.05) 0%, transparent 70%);
+}
+
+.orbit-rings {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(20, 184, 166, 0.3);
+  border-radius: 50%;
+  animation: orbit-rotate 15s linear infinite;
+  box-shadow: 0 0 20px rgba(20, 184, 166, 0.1);
+}
+
+.orbit-rings::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 70%;
+  border: 1px solid rgba(20, 184, 166, 0.2);
+  border-radius: 50%;
+  animation: orbit-rotate 10s linear infinite reverse;
+}
+
+.orbit-rings::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  height: 40%;
+  border: 1px solid rgba(20, 184, 166, 0.15);
+  border-radius: 50%;
+  animation: orbit-rotate 6s linear infinite;
+}
+
+.orbit-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.6) 0%, rgba(20, 184, 166, 0.1) 70%);
+  border-radius: 50%;
+  animation: center-pulse 2s ease-in-out infinite;
+  box-shadow: 0 0 30px rgba(20, 184, 166, 0.3);
+}
+
+.orbit-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 85% 15%, rgba(20, 184, 166, 0.8) 2px, transparent 2px),
+    radial-gradient(circle at 15% 85%, rgba(20, 184, 166, 0.6) 2px, transparent 2px),
+    radial-gradient(circle at 85% 85%, rgba(20, 184, 166, 0.7) 2px, transparent 2px),
+    radial-gradient(circle at 15% 15%, rgba(20, 184, 166, 0.5) 2px, transparent 2px);
+  animation: particles-orbit 8s linear infinite;
+}
+
+/* Energy Blob */
+.energy-blob {
+  width: 400px;
+  height: 400px;
+  position: relative;
+}
+
+.blob-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.6) 0%, rgba(168, 85, 247, 0.2) 70%);
+  border-radius: 50%;
+  animation: blob-morph 6s ease-in-out infinite;
+}
+
+.blob-rings {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  border-radius: 50%;
+  animation: ring-expand 4s ease-out infinite;
+}
+
+.energy-streams {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, rgba(168, 85, 247, 0.8) 50%, transparent 100%);
+  animation: stream-rotate 3s linear infinite;
+}
+
+.energy-streams::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  transform: rotate(60deg);
+}
+
+.energy-streams::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  transform: rotate(-60deg);
+}
+
+/* Radial Glow */
+.radial-glow {
+  width: 400px;
+  height: 400px;
+  position: relative;
+}
+
+.glow-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.5) 0%, rgba(245, 158, 11, 0.1) 70%);
+  border-radius: 50%;
+  animation: glow-breathe 5s ease-in-out infinite;
+}
+
+.glow-waves {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border: 2px solid rgba(245, 158, 11, 0.2);
+  border-radius: 50%;
+  animation: wave-expand 6s ease-out infinite;
+}
+
+.glow-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(0deg, transparent 48%, rgba(245, 158, 11, 0.1) 49%, rgba(245, 158, 11, 0.1) 51%, transparent 52%),
+    linear-gradient(90deg, transparent 48%, rgba(245, 158, 11, 0.1) 49%, rgba(245, 158, 11, 0.1) 51%, transparent 52%);
+  background-size: 50px 50px;
+  border-radius: 20px;
+  opacity: 0.6;
+}
+
+/* Navigation */
+.carousel-nav {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 16px;
+  z-index: 10;
+}
+
+.nav-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(34, 197, 94, 0.1);
+}
+
+.nav-dot.active {
+  background: rgba(34, 197, 94, 0.8);
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.4);
+  transform: scale(1.2);
+}
+
+.nav-dot:hover {
+  background: rgba(34, 197, 94, 0.4);
+  transform: scale(1.1);
+}
+
+/* Cinematic Animations */
+@keyframes neural-flow {
+  0%, 100% { background-position: 0% 0%, 100% 100%, 50% 50%, 0% 0%; }
+  50% { background-position: 30% 70%, 70% 30%, 80% 20%, 0% 0%; }
+}
+
+@keyframes network-flow {
+  0%, 100% { background-position: 0% 50%, 100% 50%, 0% 0%, 0% 0%; }
+  50% { background-position: 50% 0%, 50% 100%, 100% 100%, 0% 0%; }
+}
+
+@keyframes speed-flow {
+  0%, 100% { background-position: 0% 0%, 100% 100%, 0% 0%, 0% 0%; }
+  50% { background-position: 100% 0%, 0% 100%, 100% 100%, 0% 0%; }
+}
+
+@keyframes global-flow {
+  0%, 100% { background-position: 50% 50%, 0% 100%, 0% 0%, 0% 0%; }
+  50% { background-position: 100% 0%, 100% 0%, 100% 100%, 0% 0%; }
+}
+
+@keyframes particles-drift {
+  0% { transform: translateX(0) translateY(0); }
+  100% { transform: translateX(-100px) translateY(-100px); }
+}
+
+@keyframes mesh-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+}
+
+@keyframes neural-connections {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes brain-pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+  50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.9; }
+}
+
+@keyframes orbit-rotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes center-pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.1); }
+}
+
+@keyframes particles-orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes blob-morph {
+  0%, 100% { border-radius: 50%; transform: translate(-50%, -50%) scale(1); }
+  33% { border-radius: 60% 40% 30% 70%; transform: translate(-50%, -50%) scale(1.1); }
+  66% { border-radius: 30% 60% 70% 40%; transform: translate(-50%, -50%) scale(0.9); }
+}
+
+@keyframes ring-expand {
+  0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0; }
+}
+
+@keyframes stream-rotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes glow-breathe {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+  50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+}
+
+@keyframes wave-expand {
+  0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+}
+
+@keyframes dot-pulse {
+  0%, 100% { box-shadow: 0 0 20px var(--primary-glow); }
+  50% { box-shadow: 0 0 30px var(--primary-glow), 0 0 40px var(--primary-glow); }
+}
+
+@keyframes icon-glow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes neural-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.9; }
+}
+
+@keyframes subtle-glow {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
+  50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.6; }
+}
+
 /* Footer */
 .footer {
   padding: 80px 0 40px;
@@ -402,6 +961,31 @@ body {
 
   .grid-container {
     grid-template-columns: 1fr;
+  }
+
+  .cinematic-carousel {
+    height: 80vh;
+    min-height: 600px;
+  }
+
+  .slide-layout {
+    flex-direction: column;
+    padding: 40px 20px;
+    gap: 40px;
+    text-align: center;
+  }
+
+  .slide-title {
+    font-size: 2.5rem;
+  }
+
+  .slide-desc {
+    font-size: 1.1rem;
+  }
+
+  .neural-mesh, .orbit-system, .energy-blob, .radial-glow {
+    width: 250px;
+    height: 250px;
   }
 
   .footer-content {

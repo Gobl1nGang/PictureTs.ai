@@ -302,3 +302,223 @@ if (registerForm) {
     }, 1000);
   });
 }
+
+// --- Cinematic AI Carousel ---
+const cinematicSlides = document.querySelectorAll('.slide');
+const navDots = document.querySelectorAll('.nav-dot');
+const carouselWrapper = document.querySelector('.carousel-wrapper');
+
+let activeSlideIndex = 0;
+let isTransitioning = false;
+
+// Update active states
+function updateActiveStates() {
+    cinematicSlides.forEach((slide, index) => {
+        slide.classList.toggle('active', index === activeSlideIndex);
+    });
+    navDots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === activeSlideIndex);
+    });
+}
+
+// Navigate to slide with animation
+function navigateToSlide(index) {
+    if (isTransitioning || index === activeSlideIndex) return;
+    
+    isTransitioning = true;
+    activeSlideIndex = index;
+    updateActiveStates();
+    
+    // Animate slide content entrance
+    anime({
+        targets: `.slide[data-slide="${index}"] .slide-title`,
+        translateY: [50, 0],
+        opacity: [0, 1],
+        duration: 800,
+        easing: 'easeOutCubic',
+        delay: 300
+    });
+    
+    anime({
+        targets: `.slide[data-slide="${index}"] .slide-desc`,
+        translateY: [30, 0],
+        opacity: [0, 1],
+        duration: 600,
+        easing: 'easeOutCubic',
+        delay: 500
+    });
+    
+    anime({
+        targets: `.slide[data-slide="${index}"] .tech-icon`,
+        scale: [0.8, 1],
+        opacity: [0, 1],
+        duration: 600,
+        easing: 'easeOutBack',
+        delay: 200
+    });
+    
+    setTimeout(() => {
+        isTransitioning = false;
+    }, 800);
+}
+
+// Navigation dot clicks
+navDots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+        navigateToSlide(index);
+    });
+});
+
+// Touch/swipe handling
+let touchStartX = 0;
+let touchStartY = 0;
+let touchCurrentX = 0;
+let touchCurrentY = 0;
+let isSwiping = false;
+let swipeStartTime = 0;
+
+function handleSwipeStart(e) {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    swipeStartTime = Date.now();
+    isSwiping = true;
+}
+
+function handleSwipeMove(e) {
+    if (!isSwiping) return;
+    
+    touchCurrentX = e.touches[0].clientX;
+    touchCurrentY = e.touches[0].clientY;
+    
+    const deltaX = Math.abs(touchStartX - touchCurrentX);
+    const deltaY = Math.abs(touchStartY - touchCurrentY);
+    
+    // Prevent vertical scroll if horizontal swipe detected
+    if (deltaX > deltaY && deltaX > 15) {
+        e.preventDefault();
+    }
+}
+
+function handleSwipeEnd() {
+    if (!isSwiping) return;
+    
+    const deltaX = touchStartX - touchCurrentX;
+    const deltaY = Math.abs(touchStartY - touchCurrentY);
+    const swipeTime = Date.now() - swipeStartTime;
+    const swipeVelocity = Math.abs(deltaX) / swipeTime;
+    
+    // Only process horizontal swipes
+    if (Math.abs(deltaX) > deltaY) {
+        const threshold = swipeVelocity > 0.5 ? 40 : 100;
+        
+        if (Math.abs(deltaX) > threshold) {
+            if (deltaX > 0) {
+                const nextIndex = activeSlideIndex === cinematicSlides.length - 1 ? 0 : activeSlideIndex + 1;
+                navigateToSlide(nextIndex);
+            } else {
+                const prevIndex = activeSlideIndex === 0 ? cinematicSlides.length - 1 : activeSlideIndex - 1;
+                navigateToSlide(prevIndex);
+            }
+        }
+    }
+    
+    isSwiping = false;
+}
+
+// Touch events
+if (carouselWrapper) {
+    carouselWrapper.addEventListener('touchstart', handleSwipeStart, { passive: true });
+    carouselWrapper.addEventListener('touchmove', handleSwipeMove, { passive: false });
+    carouselWrapper.addEventListener('touchend', handleSwipeEnd, { passive: true });
+
+    // Mouse drag support
+    let mouseStartX = 0;
+    let mouseCurrentX = 0;
+    let isDragging = false;
+    let dragStartTime = 0;
+
+    carouselWrapper.addEventListener('mousedown', (e) => {
+        mouseStartX = e.clientX;
+        dragStartTime = Date.now();
+        isDragging = true;
+    });
+
+    carouselWrapper.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        mouseCurrentX = e.clientX;
+    });
+
+    carouselWrapper.addEventListener('mouseup', () => {
+        if (!isDragging) return;
+        
+        const deltaX = mouseStartX - mouseCurrentX;
+        const dragTime = Date.now() - dragStartTime;
+        const dragVelocity = Math.abs(deltaX) / dragTime;
+        const threshold = dragVelocity > 0.3 ? 50 : 120;
+        
+        if (Math.abs(deltaX) > threshold) {
+            if (deltaX > 0) {
+                const nextIndex = activeSlideIndex === cinematicSlides.length - 1 ? 0 : activeSlideIndex + 1;
+                navigateToSlide(nextIndex);
+            } else {
+                const prevIndex = activeSlideIndex === 0 ? cinematicSlides.length - 1 : activeSlideIndex - 1;
+                navigateToSlide(prevIndex);
+            }
+        }
+        
+        isDragging = false;
+    });
+
+    // Trackpad wheel support
+    let wheelCooldown = false;
+
+    carouselWrapper.addEventListener('wheel', (e) => {
+        const deltaX = e.deltaX;
+        const deltaY = e.deltaY;
+        
+        // Only handle clear horizontal scrolling
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 20) {
+            e.preventDefault();
+            
+            if (wheelCooldown) return;
+            
+            wheelCooldown = true;
+            
+            if (deltaX > 0) {
+                const nextIndex = activeSlideIndex === cinematicSlides.length - 1 ? 0 : activeSlideIndex + 1;
+                navigateToSlide(nextIndex);
+            } else {
+                const prevIndex = activeSlideIndex === 0 ? cinematicSlides.length - 1 : activeSlideIndex - 1;
+                navigateToSlide(prevIndex);
+            }
+            
+            setTimeout(() => {
+                wheelCooldown = false;
+            }, 600);
+        }
+    }, { passive: false });
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') {
+        const prevIndex = activeSlideIndex === 0 ? cinematicSlides.length - 1 : activeSlideIndex - 1;
+        navigateToSlide(prevIndex);
+    } else if (e.key === 'ArrowRight') {
+        const nextIndex = activeSlideIndex === cinematicSlides.length - 1 ? 0 : activeSlideIndex + 1;
+        navigateToSlide(nextIndex);
+    }
+});
+
+// Initialize first slide
+if (cinematicSlides.length > 0) {
+    navigateToSlide(0);
+}
+
+// Main pre-register button functionality
+const mainPreRegisterBtn = document.getElementById('main-pre-register-btn');
+if (mainPreRegisterBtn && preRegisterBtn) {
+    mainPreRegisterBtn.addEventListener('click', () => {
+        preRegisterBtn.click();
+    });
+}
